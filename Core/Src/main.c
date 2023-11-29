@@ -56,7 +56,13 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
+{
+  HAL_TIM_PWM_Stop_DMA(&htim3,TIM_CHANNEL_1);
+  HAL_GPIO_WritePin(user_led_GPIO_Port,user_led_Pin,GPIO_PIN_RESET);
+}
 
+uint16_t data[16];
 /* USER CODE END 0 */
 
 /**
@@ -90,9 +96,15 @@ int main(void)
   MX_DMA_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+  for(int i=0;i<16;i++){
 
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+	  if(i<8) data[i]=30;
+	  else data[i] = 0;
+  }
 
+  //HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1, data, 10);
+  HAL_Delay(100);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -102,8 +114,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_GPIO_TogglePin(user_led_GPIO_Port,user_led_Pin);
-	  HAL_Delay(50);
+	  //HAL_GPIO_TogglePin(user_led_GPIO_Port,user_led_Pin);
+	  HAL_GPIO_WritePin(user_led_GPIO_Port,user_led_Pin,GPIO_PIN_SET);
+	  HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1, data, 10);
+	  HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }

@@ -1,1 +1,3 @@
 https://www.arduino.cc/reference/en/libraries/neopixelbus-by-makuna/ color and anim routines
+
+https://forum.digikey.com/t/controlling-neopixels-with-stm32/20527
