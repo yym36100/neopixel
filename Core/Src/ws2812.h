@@ -20,3 +20,5 @@ typedef struct ws_stcolor{
 void WS_SetLed(uint16_t led_index, ws_tstcolor c);
 
 void WS_MakeGamma(float gamma);
+
+void WS_Dither8(uint8_t c);

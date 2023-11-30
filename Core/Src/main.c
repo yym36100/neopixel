@@ -121,13 +121,17 @@ int main(void)
 	  WS_Init();
 	  //c.r++
 	  c.r+=inc;
-	  if(c.r>=250)inc=-2;
-	  if(c.r<=5)inc=+2;
+	  if(c.r>=254)inc=-1;
+	  if(c.r<=1)inc=+1;
 	  WS_MakeGamma(mygamma);
+
+	  WS_Dither8(c.r);
+	  /*
 	  for(int i=0;i<64;i++){
 		  //c.r = i*4+1;
 		  WS_SetLed(i, c);
 	  }
+	  */
 	   //WS_SetLed(led, c);
 	   //if(++led==64)led=0;
 	  WS_SendOut();
