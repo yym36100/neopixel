@@ -2,3 +2,5 @@
 Debug/
 doc/~$
 doc/~$calc.xlsx
+*.ncb
+*.user
