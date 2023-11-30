@@ -21,10 +21,11 @@
 #include "dma.h"
 #include "tim.h"
 #include "gpio.h"
+#include "ws2812.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+//-flto
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,15 +57,9 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
-{
-  HAL_TIM_PWM_Stop_DMA(&htim3,TIM_CHANNEL_1);
-  HAL_GPIO_WritePin(user_led_GPIO_Port,user_led_Pin,GPIO_PIN_RESET);
-}
 
-#define no_leds	(64)
-#define data_size (no_leds*3*8+40)
-uint8_t data[data_size];
+
+
 /* USER CODE END 0 */
 
 /**
@@ -98,14 +93,14 @@ int main(void)
   MX_DMA_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  for(int i=0;i<data_size;i++){
 
-	  if(i<(data_size-40)) data[i]=76;
-	  else data[i] = 0;
-  }
+  //init leds
+  WS_Init();
+  WS_SendOut();
 
   //HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1, data, data_size);
+  //HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1, data, data_size);
+
   HAL_Delay(100);
   /* USER CODE END 2 */
 
@@ -118,7 +113,8 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  //HAL_GPIO_TogglePin(user_led_GPIO_Port,user_led_Pin);
 	  HAL_GPIO_WritePin(user_led_GPIO_Port,user_led_Pin,GPIO_PIN_SET);
-	  HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1, data, data_size);
+	 // HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1, data, data_size);
+	  WS_SendOut();
 	  HAL_Delay(100);
   }
   /* USER CODE END 3 */
