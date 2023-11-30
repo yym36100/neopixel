@@ -64,7 +64,7 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 
 #define no_leds	(64)
 #define data_size (no_leds*3*8+40)
-uint16_t data[data_size];
+uint8_t data[data_size];
 /* USER CODE END 0 */
 
 /**
