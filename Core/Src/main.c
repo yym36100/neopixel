@@ -21,6 +21,7 @@
 #include "dma.h"
 #include "tim.h"
 #include "gpio.h"
+#include "ws2812.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -56,7 +57,8 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+volatile ws_tstcolor c = {0,255,0};
+volatile uint16_t led = 0;
 
 
 /* USER CODE END 0 */
@@ -95,6 +97,7 @@ int main(void)
 
   //init leds
   WS_Init();
+
   WS_SendOut();
 
   //HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
@@ -113,8 +116,12 @@ int main(void)
 	  //HAL_GPIO_TogglePin(user_led_GPIO_Port,user_led_Pin);
 	  HAL_GPIO_WritePin(user_led_GPIO_Port,user_led_Pin,GPIO_PIN_SET);
 	 // HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1, data, data_size);
+	  WS_Init();
+	   WS_SetLed(led, c);
+	   if(++led==64)led=0;
 	  WS_SendOut();
-	  HAL_Delay(100);
+
+	  HAL_Delay(10);
   }
   /* USER CODE END 3 */
 }
