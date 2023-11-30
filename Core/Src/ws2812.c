@@ -3,7 +3,7 @@
 #include "tim.h"
 
 
-uint8_t data[data_size];
+uint16_t data[data_size];
 
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)

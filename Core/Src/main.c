@@ -21,7 +21,6 @@
 #include "dma.h"
 #include "tim.h"
 #include "gpio.h"
-#include "ws2812.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
