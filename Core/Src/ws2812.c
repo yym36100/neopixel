@@ -78,3 +78,19 @@ void WS_Dither8(uint8_t c2) {
 	}
 }
 
+void WS_Dither16(uint16_t c){
+	uint8_t color = c/64;
+	uint8_t patt = c%64;
+
+	ws_tstcolor c1 = { color, color, color };
+	ws_tstcolor c2 = { color+1, color+1, color+1 };
+	if(color==255){c2.r=255;c2.g=255;c2.b=255;}
+
+		for (int y = 0; y < 64; y++) {
+			if (patt > dither[y])
+				WS_SetLed(y, c2);
+			else
+				WS_SetLed(y, c1);
+		}
+}
+

@@ -60,7 +60,10 @@ void SystemClock_Config(void);
 volatile ws_tstcolor c = {1,0,0};
 volatile uint16_t led = 0;
 volatile float mygamma = 2.2f;
-int8_t inc = +2;
+volatile int8_t incval = +2;
+int8_t inc = 1;
+uint16_t d16 = 1;
+volatile uint16_t maxval=64*10;
 
 /* USER CODE END 0 */
 
@@ -120,12 +123,20 @@ int main(void)
 	 // HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1, data, data_size);
 	  WS_Init();
 	  //c.r++
-	  c.r+=inc;
-	  if(c.r>=254)inc=-1;
-	  if(c.r<=1)inc=+1;
+//	  c.r+=inc;
+//	  if(c.r>=254)inc=-1;
+//	  if(c.r<=1)inc=+1;
+
+	  //c.r+=inc;
+
+	 	  if(d16>=(maxval-incval))inc=-incval;
+	 	  if(d16<=incval)inc=+incval;
+	 	  d16+=inc;
+
 	  WS_MakeGamma(mygamma);
 
-	  WS_Dither8(c.r);
+	  //WS_Dither8(c.r);
+	  WS_Dither16(d16);
 	  /*
 	  for(int i=0;i<64;i++){
 		  //c.r = i*4+1;
