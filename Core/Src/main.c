@@ -60,7 +60,7 @@ void SystemClock_Config(void);
 volatile ws_tstcolor c = {1,0,0};
 volatile uint16_t led = 0;
 volatile float mygamma = 2.2f;
-
+int8_t inc = +2;
 
 /* USER CODE END 0 */
 
@@ -119,16 +119,20 @@ int main(void)
 	  HAL_GPIO_WritePin(user_led_GPIO_Port,user_led_Pin,GPIO_PIN_SET);
 	 // HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1, data, data_size);
 	  WS_Init();
+	  //c.r++
+	  c.r+=inc;
+	  if(c.r>=250)inc=-2;
+	  if(c.r<=5)inc=+2;
 	  WS_MakeGamma(mygamma);
 	  for(int i=0;i<64;i++){
-		  c.r = i*4;
+		  //c.r = i*4+1;
 		  WS_SetLed(i, c);
 	  }
 	   //WS_SetLed(led, c);
 	   //if(++led==64)led=0;
 	  WS_SendOut();
 
-	  HAL_Delay(10);
+	  HAL_Delay(3);
   }
   /* USER CODE END 3 */
 }
