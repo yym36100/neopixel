@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "ws2812.h"
 #include "main.h"
 #include "tim.h"
@@ -7,7 +9,14 @@ volatile uint32_t done = 1;
 uint8_t ws_brighness;
 
 static uint16_t data[data_size];
+static uint8_t gamamcurve[256];
 
+
+void WS_MakeGamma(float gamma){
+	for(int i=0;i<256;i++){
+		gamamcurve[i] = (uint8_t)(powf(i/255.0f,gamma)*255.0f);
+	}
+}
 
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
@@ -39,8 +48,8 @@ static void WS_ColorToBits(uint16_t* pData,uint8_t c){
 }
 
 void WS_SetLed(uint16_t led_index, ws_tstcolor c){
-	WS_ColorToBits(&data[led_index*24 + 0],c.g);
-	WS_ColorToBits(&data[led_index*24 + 8],c.r);
-	WS_ColorToBits(&data[led_index*24 + 16],c.b);
+	WS_ColorToBits(&data[led_index*24 + 0],gamamcurve[c.g]);
+	WS_ColorToBits(&data[led_index*24 + 8],gamamcurve[c.r]);
+	WS_ColorToBits(&data[led_index*24 + 16],gamamcurve[c.b]);
 }
 
