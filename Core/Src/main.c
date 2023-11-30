@@ -59,7 +59,7 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 volatile ws_tstcolor c = {1,0,0};
 volatile uint16_t led = 0;
-volatile float mygamma = 2.2f;
+volatile float mygamma = 1.0f;
 volatile int8_t incval = +2;
 int8_t inc = 1;
 uint16_t d16 = 1;
